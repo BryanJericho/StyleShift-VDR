@@ -6,7 +6,8 @@ paper/
 kaggle.json
 
 # --- Data (regenerate with scripts) ---
-data/
+data/*
+!data/.gitkeep
 
 # --- Unpublished results ---
 results/scores/

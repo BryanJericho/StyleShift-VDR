@@ -1,0 +1,116 @@
+# Visual styles. The words on every page are identical across styles; only presentation changes.
+# Each style lists its value for every factor used in RQ3, so factor analysis can read them here.
+# Colours and font names are proposals; fonts must be installed in the render environment.
+
+page:
+  width_px: 1024
+  height_px: 1366
+
+# Long documents are cut at the same word for every style, and each cut is logged.
+# The limit is chosen in the rendering task so the text fits the densest-capacity style.
+truncation:
+  unit: words
+  max_words: null
+
+reference_style: plain
+
+styles:
+  plain:
+    font: "DejaVu Serif"
+    font_size_px: 16
+    columns: 1
+    text_color: "#000000"
+    background_color: "#ffffff"
+    heading_color: "#000000"
+    layout: document
+    decoration: none
+
+  sans:
+    font: "DejaVu Sans"
+    font_size_px: 16
+    columns: 1
+    text_color: "#000000"
+    background_color: "#ffffff"
+    heading_color: "#000000"
+    layout: document
+    decoration: none
+
+  mono:
+    font: "DejaVu Sans Mono"
+    font_size_px: 16
+    columns: 1
+    text_color: "#000000"
+    background_color: "#ffffff"
+    heading_color: "#000000"
+    layout: document
+    decoration: none
+
+  small-dense:
+    font: "DejaVu Serif"
+    font_size_px: 11
+    columns: 2
+    text_color: "#000000"
+    background_color: "#ffffff"
+    heading_color: "#000000"
+    layout: document
+    decoration: none
+
+  large:
+    font: "DejaVu Serif"
+    font_size_px: 22
+    columns: 1
+    text_color: "#000000"
+    background_color: "#ffffff"
+    heading_color: "#000000"
+    layout: document
+    decoration: none
+
+  dark:
+    font: "DejaVu Serif"
+    font_size_px: 16
+    columns: 1
+    text_color: "#f0f0f0"
+    background_color: "#1a1a1a"
+    heading_color: "#f0f0f0"
+    layout: document
+    decoration: none
+
+  low-contrast:
+    font: "DejaVu Serif"
+    font_size_px: 16
+    columns: 1
+    text_color: "#8a8a8a"
+    background_color: "#d9d9d9"
+    heading_color: "#8a8a8a"
+    layout: document
+    decoration: none
+
+  tinted:
+    font: "DejaVu Serif"
+    font_size_px: 16
+    columns: 1
+    text_color: "#000000"
+    background_color: "#fdf3dc"
+    heading_color: "#1f4e8c"
+    layout: document
+    decoration: none
+
+  slide:
+    font: "DejaVu Sans"
+    font_size_px: 16
+    columns: 1
+    text_color: "#000000"
+    background_color: "#ffffff"
+    heading_color: "#000000"
+    layout: slide          # big title + one bullet per sentence
+    decoration: none
+
+  template:
+    font: "DejaVu Serif"
+    font_size_px: 16
+    columns: 1
+    text_color: "#000000"
+    background_color: "#ffffff"
+    heading_color: "#000000"
+    layout: document
+    decoration: header-logo-border   # header bar, logo block (no text), page border

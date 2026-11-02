@@ -1,0 +1,9 @@
+# Datasets, loaded with ir_datasets. IDs checked on https://ir-datasets.com/beir.html.
+
+datasets:
+  scifact:
+    ir_datasets_id: "beir/scifact/test"
+    split: test
+  nfcorpus:
+    ir_datasets_id: "beir/nfcorpus/test"
+    split: test

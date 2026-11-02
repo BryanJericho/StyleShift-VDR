@@ -1,0 +1,38 @@
+# Not pinned yet: exact versions get pinned once each model is verified on Kaggle/Colab.
+
+# Config and environment
+pyyaml
+python-dotenv
+
+# Data (BEIR datasets)
+ir_datasets
+
+# Rendering
+playwright
+
+# OCR check (character error rate). OCR engine not chosen yet.
+jiwer
+
+# Models
+torch
+transformers
+colpali-engine
+sentence-transformers
+
+# Text baselines
+bm25s
+
+# Metrics and statistics
+numpy
+scipy
+pandas
+ir_measures
+
+# Figures
+matplotlib
+
+# Development
+pytest
+ruff
+pre-commit
+nbstripout
