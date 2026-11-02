@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      # Only the light tools the tests need; the GPU stack in requirements.txt is not installed.
+      - name: Install tools
+        run: pip install ruff pytest pyyaml
+      - name: Ruff lint
+        run: ruff check .
+      - name: Ruff format check
+        run: ruff format --check .
+      - name: Pytest
+        run: pytest
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read   # gitleaks lists the commits of a pull request
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # scan the full history, not only the last commit
+      - uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: false   # commenting would need write access
