@@ -1,0 +1,28 @@
+name: Experiment
+description: Propose or discuss an experiment, model, style or dataset.
+labels: ["experiment"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What do you want to find out?
+    validations:
+      required: true
+  - type: textarea
+    id: setup
+    attributes:
+      label: Proposed setup
+      description: Models, styles, datasets and metrics involved. Point to the config entries if they exist.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected outcome
+      description: What result would support or reject the idea?
+  - type: textarea
+    id: cost
+    attributes:
+      label: Compute cost
+      description: Rough GPU time and whether existing score matrices can be reused.
