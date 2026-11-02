@@ -1,0 +1,109 @@
+# Models. hf_id, revision (commit SHA), licence and loading code were checked on each
+# Hugging Face model card at that revision on 2026-11-02.
+#
+# loader:
+#   st-multivector  sentence_transformers.MultiVectorEncoder(hf_id, revision=...);
+#                   encode_query / encode_document / similarity (MaxSim). Needs
+#                   sentence-transformers[image]>=6.0.0. The cards say this path keeps the
+#                   training-time query format, which current colpali-engine no longer sends.
+#   st-single       sentence_transformers.SentenceTransformer(hf_id, revision=...)
+#   transformers    custom code following the model card (see notes)
+#   flagembedding   FlagEmbedding.BGEM3FlagModel
+#   bm25            bm25s, no Hugging Face weights
+#
+# card_dtype is what the card uses. A T4 has no fast bfloat16, so the run dtype is decided
+# in the encoding task.
+
+visual_multi_vector:
+  colpali-v1.3:
+    hf_id: "vidore/colpali-v1.3"
+    revision: "b5c6dd62125326e6f0b540c1f7b36e901cdc0a11"
+    loader: st-multivector
+    trust_remote_code: false
+    card_dtype: bfloat16
+    license: mit   # adapter; base vidore/colpaligemma-3b-pt-448-base is under the Gemma licence
+
+  colqwen2.5:
+    hf_id: "vidore/colqwen2.5-v0.2"
+    revision: "dcbe8d9cede518bce830488364ba0e40c873645b"
+    loader: st-multivector
+    trust_remote_code: false
+    card_dtype: bfloat16
+    license: mit   # adapter; base vidore/colqwen2.5-base is apache-2.0
+
+  colmodernvbert:
+    hf_id: "ModernVBERT/colmodernvbert"
+    revision: "4c604428a6e1a7e33d0fb34837f0cdecbc22026e"
+    loader: st-multivector
+    trust_remote_code: false
+    card_dtype: float32
+    license: mit
+
+  colvec1.1-4b:
+    hf_id: "webAI-Official/webAI-ColVec1.1-4b"
+    revision: "d88d0155d700b06382124ff985ddb07099155bb4"
+    loader: st-multivector
+    trust_remote_code: true
+    card_dtype: bfloat16
+    license: webai-non-commercial-license-v1.0
+    notes: >
+      640-dim multi-vector, attn_implementation sdpa. Card scores MaxSim in float32.
+      Direct transformers path needs transformers>=5.14.1,<6.0.0.
+
+visual_single_vector:
+  jina-embeddings-v4:
+    hf_id: "jinaai/jina-embeddings-v4"
+    revision: "853c867b65b749f3c3c72a06868140d842e04f06"
+    loader: st-single
+    trust_remote_code: true
+    card_dtype: float16
+    license: qwen-research-license   # card: first released as cc-by-nc-4.0 by error
+    notes: >
+      encode(..., task="retrieval", prompt_name="query") for queries and
+      prompt_name="passage" for page images. Card lists transformers>=4.52.0.
+
+  dse-qwen2:
+    hf_id: "MrLight/dse-qwen2-2b-mrl-v1"
+    revision: "3fde4464ea72da2a863ed8fa51f0f1b8045f0426"
+    loader: transformers
+    trust_remote_code: false
+    card_dtype: bfloat16
+    license: apache-2.0
+    notes: >
+      Qwen2VLForConditionalGeneration + AutoProcessor (min_pixels=1*28*28,
+      max_pixels=2560*28*28) + qwen_vl_utils.process_vision_info. Left padding.
+      Embedding = last token of last hidden state, first 1536 dims, L2-normalised.
+      Query text "Query: {q}" with a dummy 1x1 image; page prompt "What is shown in this image?".
+      Card uses flash_attention_2, which a T4 does not support.
+
+  siglip2:
+    hf_id: "google/siglip2-so400m-patch14-384"
+    revision: "e8e487298228002f3d8a82e0cd5c8ea9c567f57f"
+    loader: transformers
+    trust_remote_code: false
+    card_dtype: float32
+    license: apache-2.0
+    notes: >
+      AutoModel + AutoProcessor; get_image_features / get_text_features.
+      General image-text model, not trained for documents; pages are resized to 384x384.
+      Variant (so400m-patch14-384) is a proposal. Text max length not stated in config.
+
+text_reference:
+  bm25:
+    loader: bm25
+    input: raw_text
+
+  bge-m3:
+    hf_id: "BAAI/bge-m3"
+    revision: "5617a9f61b028005a4858fdac845db406aefb181"
+    loader: flagembedding
+    trust_remote_code: false
+    card_dtype: float16
+    license: mit
+    input: raw_text
+    notes: Dense vectors only (encode(...)["dense_vecs"]).
+
+pipeline_reference:
+  ocr-bm25:
+    loader: bm25
+    input: ocr_text   # OCR engine not chosen yet
