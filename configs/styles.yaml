@@ -1,11 +1,31 @@
 # Visual styles. The words on every page are identical across styles; only presentation changes.
 # Each style lists its value for every factor used in RQ3, so factor analysis can read them here.
-# Colours and font names are proposals; fonts must be installed in the render environment.
+# Colours are proposals. Fonts are bundled in assets/fonts/; system fonts are never used.
 
 page:
   width_px: 1024
   height_px: 1366
   margin_px: 48
+
+# Font family name -> bundled files (relative to fonts_dir). See assets/fonts/README.md.
+fonts_dir: assets/fonts
+fonts:
+  "Noto Serif":
+    regular: NotoSerif-Regular.ttf
+    bold: NotoSerif-Bold.ttf
+  "Noto Sans":
+    regular: NotoSans-Regular.ttf
+    bold: NotoSans-Bold.ttf
+  "Noto Sans Mono":
+    regular: NotoSansMono-Regular.ttf
+    bold: NotoSansMono-Bold.ttf
+  "Noto Sans Math":
+    regular: NotoSansMath-Regular.ttf
+  "Noto Sans Symbols 2":
+    regular: NotoSansSymbols2-Regular.ttf
+
+# Used after the style's font for characters it lacks (e.g. ≥ ≤ ∼ → ■), in every style.
+fallback_fonts: ["Noto Sans Math", "Noto Sans Symbols 2"]
 
 # Long documents are cut at the same word for every style, and each cut is logged.
 # The limit is chosen in the rendering task so the text fits the densest-capacity style.
@@ -17,7 +37,7 @@ reference_style: plain
 
 styles:
   plain:
-    font: "DejaVu Serif"
+    font: "Noto Serif"
     font_size_px: 16
     columns: 1
     text_color: "#000000"
@@ -27,7 +47,7 @@ styles:
     decoration: none
 
   sans:
-    font: "DejaVu Sans"
+    font: "Noto Sans"
     font_size_px: 16
     columns: 1
     text_color: "#000000"
@@ -37,7 +57,7 @@ styles:
     decoration: none
 
   mono:
-    font: "DejaVu Sans Mono"
+    font: "Noto Sans Mono"
     font_size_px: 16
     columns: 1
     text_color: "#000000"
@@ -47,7 +67,7 @@ styles:
     decoration: none
 
   small-dense:
-    font: "DejaVu Serif"
+    font: "Noto Serif"
     font_size_px: 11
     columns: 2
     text_color: "#000000"
@@ -57,7 +77,7 @@ styles:
     decoration: none
 
   large:
-    font: "DejaVu Serif"
+    font: "Noto Serif"
     font_size_px: 22
     columns: 1
     text_color: "#000000"
@@ -67,7 +87,7 @@ styles:
     decoration: none
 
   dark:
-    font: "DejaVu Serif"
+    font: "Noto Serif"
     font_size_px: 16
     columns: 1
     text_color: "#f0f0f0"
@@ -77,7 +97,7 @@ styles:
     decoration: none
 
   low-contrast:
-    font: "DejaVu Serif"
+    font: "Noto Serif"
     font_size_px: 16
     columns: 1
     text_color: "#8a8a8a"
@@ -87,7 +107,7 @@ styles:
     decoration: none
 
   tinted:
-    font: "DejaVu Serif"
+    font: "Noto Serif"
     font_size_px: 16
     columns: 1
     text_color: "#000000"
@@ -97,7 +117,7 @@ styles:
     decoration: none
 
   slide:
-    font: "DejaVu Sans"
+    font: "Noto Sans"
     font_size_px: 16
     columns: 1
     text_color: "#000000"
@@ -107,7 +127,7 @@ styles:
     decoration: none
 
   template:
-    font: "DejaVu Serif"
+    font: "Noto Serif"
     font_size_px: 16
     columns: 1
     text_color: "#000000"

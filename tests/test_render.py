@@ -2,7 +2,15 @@
 
 import struct
 
-from src.render import render_documents
+import pytest
+
+from src.render import (
+    check_fonts,
+    load_styles,
+    open_browser_page,
+    render_documents,
+    show,
+)
 
 
 def png_size(path):
@@ -28,3 +36,44 @@ def test_long_document_is_truncated_at_a_word(tmp_path):
     assert (doc_id, original) == ("long", len(text))
     assert 0 < kept < original
     assert text[:kept].endswith("word")  # cut at a word end, text unchanged
+
+
+def fonts_used(browser_page, selector):
+    """Ask Chromium which fonts it actually used to draw the text of one element."""
+    cdp = browser_page.context.new_cdp_session(browser_page)
+    cdp.send("DOM.enable")
+    cdp.send("CSS.enable")
+    root = cdp.send("DOM.getDocument")["root"]["nodeId"]
+    node = cdp.send("DOM.querySelector", {"nodeId": root, "selector": selector})
+    fonts = cdp.send("CSS.getPlatformFontsForNode", {"nodeId": node["nodeId"]})
+    return {(f["familyName"], f["isCustomFont"]) for f in fonts["fonts"]}
+
+
+def test_requested_font_is_used():
+    config = load_styles()
+    style = config["styles"]["plain"]
+    with open_browser_page(config) as browser_page:
+        show(browser_page, "A title", "Body text, 95% CI 0.38 – 0.55.", style, config)
+        for selector in ["h1", "p"]:
+            assert fonts_used(browser_page, selector) == {("Noto Serif", True)}
+
+
+def test_symbols_use_bundled_fallback_fonts():
+    config = load_styles()
+    style = config["styles"]["plain"]
+    text = "Dose ≥ 5 mg, p ≤ 0.05, ∼ 3 h → ■ ☆"
+    with open_browser_page(config) as browser_page:
+        show(browser_page, "A title", text, style, config)
+        used = fonts_used(browser_page, "p")
+    assert ("Noto Serif", True) in used
+    for family, is_bundled in used:
+        assert is_bundled and family in config["fonts"], (family, used)
+
+
+def test_font_check_fails_without_bundled_font():
+    config = load_styles()
+    style = config["styles"]["plain"]
+    with open_browser_page(config) as browser_page:
+        browser_page.set_content('<p style="font-family: serif">no @font-face</p>')
+        with pytest.raises(RuntimeError, match="did not load"):
+            check_fonts(browser_page, style, config)
