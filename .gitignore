@@ -13,6 +13,7 @@ data/*
 results/scores/
 results/tables/
 results/figures/
+results/renders_preview/
 
 # --- Python ---
 __pycache__/

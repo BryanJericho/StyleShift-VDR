@@ -17,7 +17,9 @@ jobs:
           python-version: "3.12"
       # Only the light tools the tests need; the GPU stack in requirements.txt is not installed.
       - name: Install tools
-        run: pip install ruff pytest pyyaml
+        run: |
+          pip install ruff pytest pyyaml playwright
+          python -m playwright install --with-deps chromium
       - name: Ruff lint
         run: ruff check .
       - name: Ruff format check
