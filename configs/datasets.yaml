@@ -1,9 +1,14 @@
-# Datasets, loaded with ir_datasets. IDs checked on https://ir-datasets.com/beir.html.
+# Datasets: official BEIR zips (the same files ir_datasets downloads).
+# URLs and MD5 checksums taken from ir_datasets/etc/downloads.json.
+
+data_dir: data/raw
 
 datasets:
   scifact:
-    ir_datasets_id: "beir/scifact/test"
+    url: "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/scifact.zip"
+    md5: "5f7d1de60b170fc8027bb7898e2efca1"
     split: test
   nfcorpus:
-    ir_datasets_id: "beir/nfcorpus/test"
+    url: "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/nfcorpus.zip"
+    md5: "a89dba18a62ef92f7d323ec890a0d38d"
     split: test
