@@ -5,6 +5,7 @@
 page:
   width_px: 1024
   height_px: 1366
+  margin_px: 48
 
 # Long documents are cut at the same word for every style, and each cut is logged.
 # The limit is chosen in the rendering task so the text fits the densest-capacity style.
